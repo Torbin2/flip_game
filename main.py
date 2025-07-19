@@ -1,7 +1,9 @@
 #settings
 TILE_SIZE = 200
 GRID_SIZE = (12, 6) #(x,y)
-SCRAMBLE_TIMES = 5
+SCRAMBLE_TIMES = 15
+SHOW_SCRAMBLE = True
+BORDERS = True
 
 import pygame
 from random import randint
@@ -21,7 +23,8 @@ class Tile:
     def render(self):
         color = ["#0b3804", "#040b38"][self.side]
         pygame.draw.rect(screen, color, self.rect)
-
+        if BORDERS:
+            pygame.draw.rect(screen, "black", self.rect, width=10)
 #tile_creation
 tiles = {}
 for x in range(GRID_SIZE[0]):
@@ -35,7 +38,9 @@ def click(tile):
 
 def setboard():
     for _ in range(SCRAMBLE_TIMES):
-        click((randint(0, GRID_SIZE[0]), randint(0, GRID_SIZE[1])))
+        chosen_tile = (randint(0, GRID_SIZE[0] - 1), randint(0, GRID_SIZE[1] - 1 ))
+        click(chosen_tile)
+        if SHOW_SCRAMBLE: print(chosen_tile)
 setboard()
 
 def checkwin(side_):
